@@ -64,6 +64,38 @@ public class CreateReservationRequestValidatorTests
     }
 
     [Fact]
+    public void MissingDate_FailsGracefully_WithoutThrowing()
+    {
+        // Regresión: un payload sin 'date' no debe lanzar excepción, sino fallar la validación.
+        var request = ValidRequest() with { Date = null };
+
+        var act = () => _validator.TestValidate(request);
+
+        act.Should().NotThrow();
+        act().ShouldHaveValidationErrorFor(x => x.Date);
+    }
+
+    [Fact]
+    public void MissingMultipleFields_ReportsAllErrors_WithoutThrowing()
+    {
+        // Payload como el reportado: sin 'date' y con pasajeros fuera de rango.
+        var request = new CreateReservationRequest
+        {
+            CustomerName = "Carlos Ruiz",
+            Origin = "Cali",
+            Destination = "Terminal Norte",
+            Passengers = 8,
+            ServiceType = "standard"
+            // Date ausente
+        };
+
+        var result = _validator.TestValidate(request);
+
+        result.ShouldHaveValidationErrorFor(x => x.Date);
+        result.ShouldHaveValidationErrorFor(x => x.Passengers);
+    }
+
+    [Fact]
     public void InvalidServiceType_Fails()
     {
         var request = ValidRequest() with { ServiceType = "luxury" };
