@@ -38,11 +38,10 @@ builder.Services.AddSwaggerGen(options =>
         Description = "REST API for managing transfer reservations (Backend .NET technical test)."
     });
 
-    // Include XML comments in the Swagger documentation.
-    var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-    if (File.Exists(xmlPath))
-        options.IncludeXmlComments(xmlPath);
+    // Include XML comments (API + Application DTOs) in the Swagger documentation,
+    // so field descriptions, allowed values and examples are shown.
+    foreach (var xml in Directory.GetFiles(AppContext.BaseDirectory, "*.xml"))
+        options.IncludeXmlComments(xml, includeControllerXmlComments: true);
 });
 
 var app = builder.Build();
