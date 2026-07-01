@@ -60,8 +60,13 @@ if (app.Environment.IsDevelopment())
         options.RoutePrefix = string.Empty; // Swagger UI disponible en la raíz "/".
     });
 }
+else
+{
+    // La redirección a HTTPS solo aplica fuera de desarrollo. En local evita el error
+    // "Failed to fetch" de Swagger cuando el certificado de desarrollo no es de confianza.
+    app.UseHttpsRedirection();
+}
 
-app.UseHttpsRedirection();
 app.MapControllers();
 
 app.Run();
