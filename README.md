@@ -182,11 +182,11 @@ curl -X POST http://localhost:5059/reservations \
   "status": "Created",
   "price": 156000,
   "priceBreakdown": [
-    { "concept": "Tarifa base Premium", "amount": 80000 },
-    { "concept": "Pasajeros (5 x 10,000)", "amount": 50000 },
-    { "concept": "Recargo grupo grande (+15%)", "amount": 19500 },
-    { "concept": "Recargo Premium grupo grande (+10%)", "amount": 13000 },
-    { "concept": "Descuento por anticipación (-5%)", "amount": -6500 }
+    { "concept": "Base fare Premium", "amount": 80000 },
+    { "concept": "Passengers (5 x 10,000)", "amount": 50000 },
+    { "concept": "Large group surcharge (+15%)", "amount": 19500 },
+    { "concept": "Premium large group surcharge (+10%)", "amount": 13000 },
+    { "concept": "Advance booking discount (-5%)", "amount": -6500 }
   ],
   "createdAt": "2026-07-01T17:35:42",
   "updatedAt": "2026-07-01T17:35:42"
@@ -197,14 +197,14 @@ curl -X POST http://localhost:5059/reservations \
 
 ```json
 {
-  "title": "Uno o más errores de validación ocurrieron.",
+  "title": "One or more validation errors occurred.",
   "status": 400,
   "errors": {
-    "CustomerName": ["El nombre del cliente es obligatorio."],
-    "Passengers": ["El número de pasajeros debe estar entre 1 y 6."],
-    "Date": ["La fecha debe ser válida y no estar en el pasado."],
-    "ServiceType": ["El tipo de servicio debe ser 'standard' o 'premium'."],
-    "Destination": ["El origen y el destino deben ser distintos."]
+    "CustomerName": ["Customer name is required."],
+    "Passengers": ["The number of passengers must be between 1 and 6."],
+    "Date": ["Date must be valid and not in the past."],
+    "ServiceType": ["Service type must be 'standard' or 'premium'."],
+    "Destination": ["Origin and destination must be different."]
   }
 }
 ```
@@ -213,7 +213,7 @@ curl -X POST http://localhost:5059/reservations \
 
 ```json
 {
-  "title": "Ya existe una reserva idéntica (mismo cliente, origen, destino, fecha y tipo de servicio).",
+  "title": "A reservation with the same customer, origin, destination, date and service type already exists.",
   "status": 409,
   "code": "reservation.duplicate"
 }
