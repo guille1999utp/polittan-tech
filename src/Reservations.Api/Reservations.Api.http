@@ -1,0 +1,39 @@
+@host = http://localhost:5199
+
+### Crear reserva (Premium, 5 pasajeros) -> 201 Created
+POST {{host}}/reservations
+Content-Type: application/json
+
+{
+  "customerName": "Juan Pérez",
+  "origin": "Bogotá",
+  "destination": "Aeropuerto El Dorado",
+  "date": "2026-12-20T10:00:00",
+  "passengers": 5,
+  "serviceType": "premium"
+}
+
+### Obtener todas las reservas
+GET {{host}}/reservations
+
+### Obtener una reserva por id (reemplazar {id})
+GET {{host}}/reservations/{id}
+
+### Confirmar una reserva (reemplazar {id})
+PATCH {{host}}/reservations/{id}/confirm
+
+### Cancelar una reserva (reemplazar {id})
+PATCH {{host}}/reservations/{id}/cancel
+
+### Ejemplo de payload inválido -> 400 con errores por campo
+POST {{host}}/reservations
+Content-Type: application/json
+
+{
+  "customerName": "",
+  "origin": "Cali",
+  "destination": "Cali",
+  "date": "2020-01-01T10:00:00",
+  "passengers": 9,
+  "serviceType": "luxury"
+}
