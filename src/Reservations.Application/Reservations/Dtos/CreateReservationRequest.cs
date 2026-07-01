@@ -1,8 +1,8 @@
 namespace Reservations.Application.Reservations.Dtos;
 
 /// <summary>
-/// Payload para crear una reserva. Coincide con el contrato JSON del enunciado.
-/// <c>ServiceType</c> se recibe como texto ("standard" | "premium") y se valida/parses en la capa de aplicación.
+/// Payload to create a reservation. Matches the JSON contract of the exercise.
+/// <c>ServiceType</c> is received as text ("standard" | "premium") and validated/parsed in the application layer.
 /// </summary>
 public sealed record CreateReservationRequest
 {

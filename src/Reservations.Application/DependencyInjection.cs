@@ -7,22 +7,22 @@ using Reservations.Domain.Pricing.Rules;
 
 namespace Reservations.Application;
 
-/// <summary>Registro de servicios de la capa de Aplicación y Dominio (casos de uso, pricing, validadores).</summary>
+/// <summary>Service registration for the Application and Domain layers (use cases, pricing, validators).</summary>
 public static class DependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         services.AddScoped<IReservationService, ReservationService>();
 
-        // Reglas de tarifación (patrón Strategy). El orden solo afecta el desglose, no el total,
-        // porque todos los porcentajes se aplican sobre el mismo subtotal base.
+        // Pricing rules (Strategy pattern). The order only affects the breakdown, not the total,
+        // because all percentages are applied over the same base subtotal.
         services.AddSingleton<ISurchargeRule, SameDaySurchargeRule>();
         services.AddSingleton<ISurchargeRule, LargeGroupSurchargeRule>();
         services.AddSingleton<ISurchargeRule, PremiumLargeGroupSurchargeRule>();
         services.AddSingleton<ISurchargeRule, AdvanceBookingDiscountRule>();
         services.AddSingleton<IReservationPricingEngine, ReservationPricingEngine>();
 
-        // Validadores de FluentValidation descubiertos en este ensamblado.
+        // FluentValidation validators discovered in this assembly.
         services.AddValidatorsFromAssemblyContaining<ReservationService>();
 
         return services;

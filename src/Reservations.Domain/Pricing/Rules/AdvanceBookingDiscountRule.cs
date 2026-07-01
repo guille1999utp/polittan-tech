@@ -1,6 +1,6 @@
 namespace Reservations.Domain.Pricing.Rules;
 
-/// <summary>-5% cuando la reserva se hace con 2 o más días de anticipación.</summary>
+/// <summary>-5% when the reservation is made with 2 or more days of anticipation.</summary>
 public sealed class AdvanceBookingDiscountRule : ISurchargeRule
 {
     public PriceLine? Apply(PricingContext context, decimal baseAmount)
@@ -9,6 +9,6 @@ public sealed class AdvanceBookingDiscountRule : ISurchargeRule
             return null;
 
         var amount = -(baseAmount * PricingConstants.AdvanceBookingDiscount);
-        return new PriceLine("Descuento por anticipación (-5%)", amount);
+        return new PriceLine("Advance booking discount (-5%)", amount);
     }
 }

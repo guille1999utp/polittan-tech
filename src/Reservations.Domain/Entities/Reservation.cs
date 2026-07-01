@@ -5,14 +5,14 @@ using Reservations.Domain.Pricing;
 namespace Reservations.Domain.Entities;
 
 /// <summary>
-/// Aggregate root que representa una reserva de traslado.
-/// Encapsula sus invariantes de ciclo de vida: las transiciones de estado solo pueden
-/// ocurrir a través de <see cref="Confirm"/> y <see cref="Cancel"/>, que devuelven un
-/// <see cref="Result"/> en lugar de lanzar excepciones para transiciones inválidas.
+/// Aggregate root that represents a transfer reservation.
+/// Encapsulates its lifecycle invariants: state transitions can only occur through
+/// <see cref="Confirm"/> and <see cref="Cancel"/>, which return a <see cref="Result"/>
+/// instead of throwing exceptions for invalid transitions.
 /// </summary>
 public sealed class Reservation
 {
-    // Constructor privado: la única vía de creación es el factory Create.
+    // Private constructor: the only way to create an instance is the Create factory.
     private Reservation(
         Guid id,
         string customerName,
@@ -53,9 +53,9 @@ public sealed class Reservation
     public DateTime UpdatedAt { get; private set; }
 
     /// <summary>
-    /// Crea una reserva en estado <see cref="ReservationStatus.Created"/> con su precio ya calculado.
-    /// La validación del input (campos, rangos, fecha, duplicidad) ocurre en la capa de aplicación
-    /// antes de llegar aquí; este factory garantiza la construcción consistente del agregado.
+    /// Creates a reservation in <see cref="ReservationStatus.Created"/> state with its price already computed.
+    /// Input validation (fields, ranges, date, duplication) happens in the application layer
+    /// before reaching here; this factory guarantees a consistent construction of the aggregate.
     /// </summary>
     public static Reservation Create(
         string customerName,
@@ -80,25 +80,25 @@ public sealed class Reservation
             now);
     }
 
-    /// <summary>Confirma la reserva. Solo válido desde el estado Created.</summary>
+    /// <summary>Confirms the reservation. Only valid from the Created state.</summary>
     public Result Confirm(DateTime now)
     {
         if (Status == ReservationStatus.Confirmed)
-            return Result.Failure(Error.Conflict("reservation.already_confirmed", "La reserva ya está confirmada."));
+            return Result.Failure(Error.Conflict("reservation.already_confirmed", "The reservation is already confirmed."));
 
         if (Status == ReservationStatus.Cancelled)
-            return Result.Failure(Error.Conflict("reservation.cancelled", "No se puede confirmar una reserva cancelada."));
+            return Result.Failure(Error.Conflict("reservation.cancelled", "A cancelled reservation cannot be confirmed."));
 
         Status = ReservationStatus.Confirmed;
         UpdatedAt = now;
         return Result.Success();
     }
 
-    /// <summary>Cancela la reserva. Válido desde Created o Confirmed.</summary>
+    /// <summary>Cancels the reservation. Valid from Created or Confirmed.</summary>
     public Result Cancel(DateTime now)
     {
         if (Status == ReservationStatus.Cancelled)
-            return Result.Failure(Error.Conflict("reservation.already_cancelled", "La reserva ya está cancelada."));
+            return Result.Failure(Error.Conflict("reservation.already_cancelled", "The reservation is already cancelled."));
 
         Status = ReservationStatus.Cancelled;
         UpdatedAt = now;

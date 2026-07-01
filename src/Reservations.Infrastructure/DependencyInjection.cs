@@ -4,12 +4,12 @@ using Reservations.Infrastructure.Persistence;
 
 namespace Reservations.Infrastructure;
 
-/// <summary>Registro de servicios de la capa de Infraestructura (persistencia).</summary>
+/// <summary>Service registration for the Infrastructure layer (persistence).</summary>
 public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
-        // Singleton: el almacén in-memory debe compartir estado durante toda la vida del proceso.
+        // Singleton: the in-memory store must share state for the whole lifetime of the process.
         services.AddSingleton<IReservationRepository, InMemoryReservationRepository>();
         return services;
     }

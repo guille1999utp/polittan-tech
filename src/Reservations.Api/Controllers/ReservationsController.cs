@@ -6,9 +6,9 @@ using Reservations.Application.Reservations.Dtos;
 namespace Reservations.Api.Controllers;
 
 /// <summary>
-/// API REST para la gestión de reservas de traslados.
-/// El controlador es intencionalmente delgado: delega toda la lógica al caso de uso
-/// (<see cref="IReservationService"/>) y solo traduce el resultado a HTTP.
+/// REST API for managing transfer reservations.
+/// The controller is intentionally thin: it delegates all logic to the use case
+/// (<see cref="IReservationService"/>) and only translates the result into HTTP.
 /// </summary>
 [ApiController]
 [Route("reservations")]
@@ -22,7 +22,7 @@ public sealed class ReservationsController : ControllerBase
         _service = service;
     }
 
-    /// <summary>Crea una nueva reserva (estado inicial: Created) y calcula su precio.</summary>
+    /// <summary>Creates a new reservation (initial status: Created) and computes its price.</summary>
     [HttpPost]
     [ProducesResponseType(typeof(ReservationResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
@@ -38,7 +38,7 @@ public sealed class ReservationsController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = result.Value.Id }, result.Value);
     }
 
-    /// <summary>Obtiene todas las reservas (ordenadas de la más reciente a la más antigua).</summary>
+    /// <summary>Gets all reservations (ordered from newest to oldest).</summary>
     [HttpGet]
     [ProducesResponseType(typeof(IReadOnlyList<ReservationResponse>), StatusCodes.Status200OK)]
     public async Task<ActionResult<IReadOnlyList<ReservationResponse>>> GetAll(CancellationToken ct)
@@ -47,7 +47,7 @@ public sealed class ReservationsController : ControllerBase
         return Ok(reservations);
     }
 
-    /// <summary>Obtiene una reserva por su identificador.</summary>
+    /// <summary>Gets a reservation by its identifier.</summary>
     [HttpGet("{id:guid}")]
     [ProducesResponseType(typeof(ReservationResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
@@ -57,7 +57,7 @@ public sealed class ReservationsController : ControllerBase
         return result.IsSuccess ? Ok(result.Value) : result.Error!.ToProblem();
     }
 
-    /// <summary>Confirma una reserva (Created -> Confirmed).</summary>
+    /// <summary>Confirms a reservation (Created -> Confirmed).</summary>
     [HttpPatch("{id:guid}/confirm")]
     [ProducesResponseType(typeof(ReservationResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
@@ -68,7 +68,7 @@ public sealed class ReservationsController : ControllerBase
         return result.IsSuccess ? Ok(result.Value) : result.Error!.ToProblem();
     }
 
-    /// <summary>Cancela una reserva (Created/Confirmed -> Cancelled).</summary>
+    /// <summary>Cancels a reservation (Created/Confirmed -> Cancelled).</summary>
     [HttpPatch("{id:guid}/cancel")]
     [ProducesResponseType(typeof(ReservationResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]

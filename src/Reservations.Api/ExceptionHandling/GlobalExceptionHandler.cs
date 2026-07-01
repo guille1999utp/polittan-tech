@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace Reservations.Api.ExceptionHandling;
 
 /// <summary>
-/// Manejador de último recurso: cualquier excepción no controlada se transforma en un
-/// 500 ProblemDetails, evitando filtrar detalles internos al cliente.
+/// Last-resort handler: any unhandled exception is turned into a 500 ProblemDetails,
+/// avoiding leaking internal details to the client.
 /// </summary>
 public sealed class GlobalExceptionHandler : IExceptionHandler
 {
@@ -21,7 +21,7 @@ public sealed class GlobalExceptionHandler : IExceptionHandler
 
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
-        _logger.LogError(exception, "Error no controlado procesando {Method} {Path}", httpContext.Request.Method, httpContext.Request.Path);
+        _logger.LogError(exception, "Unhandled error processing {Method} {Path}", httpContext.Request.Method, httpContext.Request.Path);
 
         httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
 
@@ -31,7 +31,7 @@ public sealed class GlobalExceptionHandler : IExceptionHandler
             ProblemDetails = new ProblemDetails
             {
                 Status = StatusCodes.Status500InternalServerError,
-                Title = "Ocurrió un error inesperado.",
+                Title = "An unexpected error occurred.",
                 Type = "https://tools.ietf.org/html/rfc7231#section-6.6.1"
             }
         });

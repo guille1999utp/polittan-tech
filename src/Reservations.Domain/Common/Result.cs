@@ -1,17 +1,17 @@
 namespace Reservations.Domain.Common;
 
 /// <summary>
-/// Resultado de una operación que puede fallar, sin lanzar excepciones.
-/// Obliga a manejar el error de forma explícita en el llamador.
+/// Result of an operation that may fail, without throwing exceptions.
+/// Forces the caller to handle the error explicitly.
 /// </summary>
 public class Result
 {
     protected Result(bool isSuccess, Error? error)
     {
         if (isSuccess && error is not null)
-            throw new InvalidOperationException("Un resultado exitoso no puede contener un error.");
+            throw new InvalidOperationException("A successful result cannot contain an error.");
         if (!isSuccess && error is null)
-            throw new InvalidOperationException("Un resultado fallido debe contener un error.");
+            throw new InvalidOperationException("A failed result must contain an error.");
 
         IsSuccess = isSuccess;
         Error = error;
@@ -29,7 +29,7 @@ public class Result
 }
 
 /// <summary>
-/// Resultado que transporta un valor cuando la operación es exitosa.
+/// Result that carries a value when the operation succeeds.
 /// </summary>
 public sealed class Result<T> : Result
 {
@@ -40,10 +40,10 @@ public sealed class Result<T> : Result
         _value = value;
     }
 
-    /// <summary>Valor producido. Solo válido cuando <see cref="Result.IsSuccess"/> es verdadero.</summary>
+    /// <summary>Produced value. Only valid when <see cref="Result.IsSuccess"/> is true.</summary>
     public T Value => IsSuccess
         ? _value!
-        : throw new InvalidOperationException("No se puede acceder al valor de un resultado fallido.");
+        : throw new InvalidOperationException("Cannot access the value of a failed result.");
 
     public static implicit operator Result<T>(T value) => Success(value);
 }

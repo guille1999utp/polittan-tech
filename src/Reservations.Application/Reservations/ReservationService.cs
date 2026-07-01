@@ -8,8 +8,8 @@ using Reservations.Domain.Pricing;
 namespace Reservations.Application.Reservations;
 
 /// <summary>
-/// Orquesta los casos de uso de reservas: valida el input, aplica la regla de duplicidad,
-/// calcula el precio con el motor de tarifación y coordina la persistencia.
+/// Orchestrates the reservation use cases: validates the input, applies the duplication rule,
+/// computes the price with the pricing engine and coordinates persistence.
 /// </summary>
 public sealed class ReservationService : IReservationService
 {
@@ -32,10 +32,10 @@ public sealed class ReservationService : IReservationService
 
     public async Task<Result<ReservationResponse>> CreateAsync(CreateReservationRequest request, CancellationToken ct = default)
     {
-        // Validación de input: lanza ValidationException que el middleware convierte en 400 ProblemDetails.
+        // Input validation: throws ValidationException which the middleware turns into a 400 ProblemDetails.
         await _validator.ValidateAndThrowAsync(request, ct);
 
-        // A partir de aquí los datos ya son válidos.
+        // From here on the data is already valid.
         ServiceTypeParser.TryParse(request.ServiceType, out var serviceType);
         var customerName = request.CustomerName!.Trim();
         var origin = request.Origin!.Trim();
@@ -43,13 +43,13 @@ public sealed class ReservationService : IReservationService
         var date = request.Date!.Value;
         var passengers = request.Passengers!.Value;
 
-        // Regla de duplicidad.
+        // Duplication rule.
         var isDuplicate = await _repository.ExistsDuplicateAsync(customerName, origin, destination, date, serviceType, ct);
         if (isDuplicate)
         {
             return Result.Failure<ReservationResponse>(Error.Conflict(
                 "reservation.duplicate",
-                "Ya existe una reserva idéntica (mismo cliente, origen, destino, fecha y tipo de servicio)."));
+                "A reservation with the same customer, origin, destination, date and service type already exists."));
         }
 
         var now = _timeProvider.GetLocalNow().DateTime;
@@ -106,5 +106,5 @@ public sealed class ReservationService : IReservationService
     private static Result<ReservationResponse> NotFound(Guid id) =>
         Result.Failure<ReservationResponse>(Error.NotFound(
             "reservation.not_found",
-            $"No se encontró la reserva con id '{id}'."));
+            $"Reservation with id '{id}' was not found."));
 }

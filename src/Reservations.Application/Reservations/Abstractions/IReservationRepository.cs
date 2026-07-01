@@ -3,9 +3,9 @@ using Reservations.Domain.Entities;
 namespace Reservations.Application.Reservations.Abstractions;
 
 /// <summary>
-/// Abstracción de persistencia de reservas. La implementación concreta (in-memory, EF Core, etc.)
-/// vive en la capa de Infraestructura; la capa de Aplicación depende solo de esta interfaz.
-/// Es asíncrona para no atar el contrato a un almacenamiento síncrono.
+/// Reservation persistence abstraction. The concrete implementation (in-memory, EF Core, etc.)
+/// lives in the Infrastructure layer; the Application layer depends only on this interface.
+/// It is asynchronous so the contract is not tied to a synchronous storage.
 /// </summary>
 public interface IReservationRepository
 {
@@ -15,8 +15,8 @@ public interface IReservationRepository
     Task UpdateAsync(Reservation reservation, CancellationToken ct = default);
 
     /// <summary>
-    /// Verifica la regla de duplicidad: existe una reserva con la misma combinación de
-    /// cliente, origen, destino, fecha y tipo de servicio (ignorando las canceladas).
+    /// Checks the duplication rule: whether a reservation exists with the same combination of
+    /// customer, origin, destination, date and service type (ignoring cancelled ones).
     /// </summary>
     Task<bool> ExistsDuplicateAsync(
         string customerName,

@@ -1,6 +1,6 @@
-@host = http://localhost:5199
+@host = http://localhost:5059
 
-### Crear reserva (Premium, 5 pasajeros) -> 201 Created
+### Create reservation (Premium, 5 passengers) -> 201 Created
 POST {{host}}/reservations
 Content-Type: application/json
 
@@ -13,19 +13,19 @@ Content-Type: application/json
   "serviceType": "premium"
 }
 
-### Obtener todas las reservas
+### Get all reservations
 GET {{host}}/reservations
 
-### Obtener una reserva por id (reemplazar {id})
+### Get a reservation by id (replace {id})
 GET {{host}}/reservations/{id}
 
-### Confirmar una reserva (reemplazar {id})
+### Confirm a reservation (replace {id})
 PATCH {{host}}/reservations/{id}/confirm
 
-### Cancelar una reserva (reemplazar {id})
+### Cancel a reservation (replace {id})
 PATCH {{host}}/reservations/{id}/cancel
 
-### Ejemplo de payload inválido -> 400 con errores por campo
+### Example of an invalid payload -> 400 with per-field errors
 POST {{host}}/reservations
 Content-Type: application/json
 

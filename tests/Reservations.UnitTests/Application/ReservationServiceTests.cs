@@ -45,7 +45,7 @@ public class ReservationServiceTests
         result.IsSuccess.Should().BeTrue();
         result.Value.Status.Should().Be("Created");
         result.Value.ServiceType.Should().Be("Standard");
-        // base 50.000 + 3*10.000 = 80.000, descuento -5% por 3 días de anticipación => 76.000
+        // base 50,000 + 3*10,000 = 80,000, -5% discount for 3 days of anticipation => 76,000
         result.Value.Price.Should().Be(76_000m);
     }
 

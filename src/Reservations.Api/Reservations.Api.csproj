@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <!-- No exigir comentario XML en cada miembro público (DTOs, etc.). -->
+    <!-- Do not require an XML comment on every public member (DTOs, etc.). -->
     <NoWarn>$(NoWarn);CS1591</NoWarn>
   </PropertyGroup>
 

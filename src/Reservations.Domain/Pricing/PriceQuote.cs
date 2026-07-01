@@ -1,14 +1,14 @@
 namespace Reservations.Domain.Pricing;
 
 /// <summary>
-/// Una línea del desglose del precio (base o recargo/descuento).
-/// Permite explicar al cliente por qué el precio es el que es.
+/// A single line of the price breakdown (base fare or surcharge/discount).
+/// Lets the customer understand why the price is what it is.
 /// </summary>
-/// <param name="Concept">Descripción legible del concepto (p. ej. "Recargo mismo día (+20%)").</param>
-/// <param name="Amount">Monto en COP; positivo para recargos, negativo para descuentos.</param>
+/// <param name="Concept">Human-readable description of the concept (e.g. "Same-day surcharge (+20%)").</param>
+/// <param name="Amount">Amount in COP; positive for surcharges, negative for discounts.</param>
 public sealed record PriceLine(string Concept, decimal Amount);
 
 /// <summary>
-/// Resultado del cálculo de precio: total y su desglose detallado.
+/// Result of the price calculation: total plus its detailed breakdown.
 /// </summary>
 public sealed record PriceQuote(decimal Total, IReadOnlyList<PriceLine> Lines);

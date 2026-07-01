@@ -18,7 +18,7 @@ public class ReservationTests
         date: Now.AddDays(5),
         passengers: 3,
         serviceType: ServiceType.Standard,
-        quote: new PriceQuote(76_000m, new[] { new PriceLine("Tarifa base Standard", 50_000m) }),
+        quote: new PriceQuote(76_000m, new[] { new PriceLine("Base fare Standard", 50_000m) }),
         now: Now);
 
     [Fact]

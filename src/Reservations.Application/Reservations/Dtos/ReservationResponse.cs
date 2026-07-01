@@ -2,7 +2,7 @@ using Reservations.Domain.Entities;
 
 namespace Reservations.Application.Reservations.Dtos;
 
-/// <summary>Representación de salida de una reserva (incluye el desglose del precio).</summary>
+/// <summary>Output representation of a reservation (includes the price breakdown).</summary>
 public sealed record ReservationResponse
 {
     public required Guid Id { get; init; }
@@ -37,5 +37,5 @@ public sealed record ReservationResponse
     };
 }
 
-/// <summary>Línea del desglose del precio en la respuesta.</summary>
+/// <summary>Price breakdown line in the response.</summary>
 public sealed record PriceLineResponse(string Concept, decimal Amount);

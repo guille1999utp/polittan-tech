@@ -6,9 +6,9 @@ using Reservations.Domain.Enums;
 namespace Reservations.Infrastructure.Persistence;
 
 /// <summary>
-/// Almacenamiento en memoria (thread-safe) de reservas. El enunciado no requiere base de datos.
-/// Se registra como Singleton para que los datos persistan durante la vida del proceso.
-/// Sustituir por una implementación real (EF Core, Dapper) no impacta al resto de capas.
+/// Thread-safe in-memory reservation storage. The exercise does not require a database.
+/// It is registered as a Singleton so data persists for the lifetime of the process.
+/// Replacing it with a real implementation (EF Core, Dapper) does not impact the other layers.
 /// </summary>
 public sealed class InMemoryReservationRepository : IReservationRepository
 {
@@ -36,8 +36,8 @@ public sealed class InMemoryReservationRepository : IReservationRepository
 
     public Task UpdateAsync(Reservation reservation, CancellationToken ct = default)
     {
-        // La entidad es mutable en su estado y ya es la misma referencia almacenada;
-        // se reasigna para dejar explícita la intención de persistir el cambio.
+        // The entity is mutable in its state and is already the same stored reference;
+        // it is reassigned to make the intent to persist the change explicit.
         _store[reservation.Id] = reservation;
         return Task.CompletedTask;
     }

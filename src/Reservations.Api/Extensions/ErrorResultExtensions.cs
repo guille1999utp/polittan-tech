@@ -4,8 +4,8 @@ using Reservations.Domain.Common;
 namespace Reservations.Api.Extensions;
 
 /// <summary>
-/// Traduce un <see cref="Error"/> de dominio a la respuesta HTTP adecuada (ProblemDetails),
-/// manteniendo el mapeo tipo-de-error -> código HTTP en un único lugar.
+/// Translates a domain <see cref="Error"/> into the proper HTTP response (ProblemDetails),
+/// keeping the error-type -> HTTP-status mapping in a single place.
 /// </summary>
 public static class ErrorResultExtensions
 {

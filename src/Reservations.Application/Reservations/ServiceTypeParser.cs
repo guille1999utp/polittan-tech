@@ -2,7 +2,7 @@ using Reservations.Domain.Enums;
 
 namespace Reservations.Application.Reservations;
 
-/// <summary>Parseo tolerante (case-insensitive) del tipo de servicio recibido como texto.</summary>
+/// <summary>Lenient (case-insensitive) parsing of the service type received as text.</summary>
 public static class ServiceTypeParser
 {
     public static bool TryParse(string? value, out ServiceType serviceType)

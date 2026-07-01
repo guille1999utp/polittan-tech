@@ -3,10 +3,10 @@ using Reservations.Domain.Common;
 
 namespace Reservations.Application.Reservations.Abstractions;
 
-/// <summary>Casos de uso de reservas expuestos a la capa de API.</summary>
+/// <summary>Reservation use cases exposed to the API layer.</summary>
 public interface IReservationService
 {
-    /// <summary>Crea una reserva. Falla (Conflict) si viola la regla de duplicidad.</summary>
+    /// <summary>Creates a reservation. Fails (Conflict) if it violates the duplication rule.</summary>
     Task<Result<ReservationResponse>> CreateAsync(CreateReservationRequest request, CancellationToken ct = default);
 
     Task<IReadOnlyList<ReservationResponse>> GetAllAsync(CancellationToken ct = default);

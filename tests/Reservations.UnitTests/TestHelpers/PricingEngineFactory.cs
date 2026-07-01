@@ -3,7 +3,7 @@ using Reservations.Domain.Pricing.Rules;
 
 namespace Reservations.UnitTests.TestHelpers;
 
-/// <summary>Construye un motor de precios con el conjunto completo de reglas, tal como en producción.</summary>
+/// <summary>Builds a pricing engine with the full set of rules, as in production.</summary>
 public static class PricingEngineFactory
 {
     public static ReservationPricingEngine CreateWithAllRules() => new(new ISurchargeRule[]

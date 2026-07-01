@@ -1,7 +1,7 @@
 namespace Reservations.Domain.Enums;
 
 /// <summary>
-/// Tipo de servicio de traslado. Determina la tarifa base y algunos recargos.
+/// Transfer service type. Determines the base fare and some surcharges.
 /// </summary>
 public enum ServiceType
 {

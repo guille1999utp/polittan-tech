@@ -1,16 +1,16 @@
 namespace Reservations.Domain.Pricing;
 
 /// <summary>
-/// Regla de recargo/descuento porcentual aplicada sobre el subtotal base.
-/// Cada regla es independiente (patrón Strategy), lo que permite agregar o quitar
-/// reglas sin modificar el motor de cálculo (principio Open/Closed).
+/// A percentage surcharge/discount rule applied over the base subtotal.
+/// Each rule is independent (Strategy pattern), which allows adding or removing
+/// rules without modifying the calculation engine (Open/Closed principle).
 /// </summary>
 public interface ISurchargeRule
 {
     /// <summary>
-    /// Evalúa la regla. Devuelve la línea de precio a aplicar, o <c>null</c> si la regla no aplica.
+    /// Evaluates the rule. Returns the price line to apply, or <c>null</c> if the rule does not apply.
     /// </summary>
-    /// <param name="context">Datos de la reserva a tarifar.</param>
-    /// <param name="baseAmount">Subtotal base (tarifa + pasajeros) sobre el cual se calcula el porcentaje.</param>
+    /// <param name="context">Data of the reservation being priced.</param>
+    /// <param name="baseAmount">Base subtotal (fare + passengers) the percentage is computed on.</param>
     PriceLine? Apply(PricingContext context, decimal baseAmount);
 }

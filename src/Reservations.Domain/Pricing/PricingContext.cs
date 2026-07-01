@@ -3,8 +3,8 @@ using Reservations.Domain.Enums;
 namespace Reservations.Domain.Pricing;
 
 /// <summary>
-/// Datos necesarios para tarifar una reserva. Incluye <paramref name="Now"/> de forma explícita
-/// para que el cálculo sea determinista y fácilmente testeable (no depende de DateTime.Now interno).
+/// Data required to price a reservation. Includes <paramref name="Now"/> explicitly so that
+/// the calculation is deterministic and easy to test (it does not rely on an internal DateTime.Now).
 /// </summary>
 public sealed record PricingContext(
     ServiceType ServiceType,
@@ -12,9 +12,9 @@ public sealed record PricingContext(
     DateTime ReservationDate,
     DateTime Now)
 {
-    /// <summary>La reserva es para el mismo día calendario en que se cotiza.</summary>
+    /// <summary>The reservation is for the same calendar day it is being quoted.</summary>
     public bool IsSameDay => ReservationDate.Date == Now.Date;
 
-    /// <summary>Días completos de anticipación entre hoy y la fecha de la reserva.</summary>
+    /// <summary>Whole days of anticipation between today and the reservation date.</summary>
     public int DaysInAdvance => (ReservationDate.Date - Now.Date).Days;
 }

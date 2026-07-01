@@ -6,28 +6,28 @@ using Reservations.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// --- Servicios ---
+// --- Services ---
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
-        // Serializa los enums como texto ("Created", "Standard") en lugar de números.
+        // Serialize enums as text ("Created", "Standard") instead of numbers.
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
 
-// Reloj del sistema como abstracción inyectable (facilita pruebas deterministas).
+// System clock as an injectable abstraction (enables deterministic tests).
 builder.Services.AddSingleton(TimeProvider.System);
 
-// Capas de la aplicación.
+// Application layers.
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure();
 
-// Manejo de errores centralizado con ProblemDetails (RFC 7807).
+// Centralized error handling with ProblemDetails (RFC 7807).
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<ValidationExceptionHandler>();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
-// Documentación OpenAPI / Swagger.
+// OpenAPI / Swagger documentation.
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -35,10 +35,10 @@ builder.Services.AddSwaggerGen(options =>
     {
         Title = "Transfer Reservations API",
         Version = "v1",
-        Description = "API REST para la gestión de reservas de traslados (prueba técnica Backend .NET)."
+        Description = "REST API for managing transfer reservations (Backend .NET technical test)."
     });
 
-    // Incluye los comentarios XML en la documentación de Swagger.
+    // Include XML comments in the Swagger documentation.
     var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     if (File.Exists(xmlPath))
@@ -47,7 +47,7 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
-// --- Pipeline HTTP ---
+// --- HTTP pipeline ---
 
 app.UseExceptionHandler();
 
@@ -57,13 +57,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(options =>
     {
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "Transfer Reservations API v1");
-        options.RoutePrefix = string.Empty; // Swagger UI disponible en la raíz "/".
+        options.RoutePrefix = string.Empty; // Swagger UI available at the root "/".
     });
 }
 else
 {
-    // La redirección a HTTPS solo aplica fuera de desarrollo. En local evita el error
-    // "Failed to fetch" de Swagger cuando el certificado de desarrollo no es de confianza.
+    // HTTPS redirection only applies outside development. Locally it avoids the Swagger
+    // "Failed to fetch" error when the development certificate is not trusted.
     app.UseHttpsRedirection();
 }
 
@@ -71,5 +71,5 @@ app.MapControllers();
 
 app.Run();
 
-// Necesario para exponer la clase Program a las pruebas de integración (WebApplicationFactory).
+// Required to expose the Program class to integration tests (WebApplicationFactory).
 public partial class Program { }

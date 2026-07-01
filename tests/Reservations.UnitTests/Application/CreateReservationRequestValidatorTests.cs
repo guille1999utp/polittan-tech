@@ -56,17 +56,9 @@ public class CreateReservationRequestValidatorTests
     }
 
     [Fact]
-    public void SameOriginAndDestination_Fails()
-    {
-        // Distinto casing y espacios: debe detectarse como igual y fallar.
-        var request = ValidRequest() with { Origin = "Bogotá", Destination = " bogotá " };
-        _validator.TestValidate(request).ShouldHaveValidationErrorFor(x => x.Destination);
-    }
-
-    [Fact]
     public void MissingDate_FailsGracefully_WithoutThrowing()
     {
-        // Regresión: un payload sin 'date' no debe lanzar excepción, sino fallar la validación.
+        // Regression: a payload without 'date' must not throw, it must fail validation.
         var request = ValidRequest() with { Date = null };
 
         var act = () => _validator.TestValidate(request);
@@ -78,7 +70,7 @@ public class CreateReservationRequestValidatorTests
     [Fact]
     public void MissingMultipleFields_ReportsAllErrors_WithoutThrowing()
     {
-        // Payload como el reportado: sin 'date' y con pasajeros fuera de rango.
+        // Payload like the reported one: without 'date' and with passengers out of range.
         var request = new CreateReservationRequest
         {
             CustomerName = "Carlos Ruiz",
@@ -86,7 +78,7 @@ public class CreateReservationRequestValidatorTests
             Destination = "Terminal Norte",
             Passengers = 8,
             ServiceType = "standard"
-            // Date ausente
+            // Date missing
         };
 
         var result = _validator.TestValidate(request);
@@ -100,6 +92,14 @@ public class CreateReservationRequestValidatorTests
     {
         var request = ValidRequest() with { ServiceType = "luxury" };
         _validator.TestValidate(request).ShouldHaveValidationErrorFor(x => x.ServiceType);
+    }
+
+    [Fact]
+    public void SameOriginAndDestination_Fails()
+    {
+        // Different casing and spaces: must be detected as equal and fail.
+        var request = ValidRequest() with { Origin = "Bogotá", Destination = " bogotá " };
+        _validator.TestValidate(request).ShouldHaveValidationErrorFor(x => x.Destination);
     }
 
     [Fact]

@@ -1,8 +1,8 @@
 namespace Reservations.Domain.Common;
 
 /// <summary>
-/// Clasificación del error para poder mapearlo al código HTTP adecuado en la capa de API,
-/// sin que el dominio conozca detalles de transporte.
+/// Error classification, used to map it to the proper HTTP status code in the API layer
+/// without the domain having to know about transport details.
 /// </summary>
 public enum ErrorType
 {
@@ -12,8 +12,8 @@ public enum ErrorType
 }
 
 /// <summary>
-/// Representa un error de negocio de forma explícita (código estable + mensaje legible).
-/// Se usa junto con <see cref="Result"/> para evitar excepciones como control de flujo.
+/// Represents a business error explicitly (stable code + human-readable message).
+/// Used together with <see cref="Result"/> to avoid exceptions as control flow.
 /// </summary>
 public sealed record Error(string Code, string Message, ErrorType Type)
 {

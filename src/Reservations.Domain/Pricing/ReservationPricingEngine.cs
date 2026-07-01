@@ -1,12 +1,12 @@
 namespace Reservations.Domain.Pricing;
 
 /// <summary>
-/// Motor de tarifación. Calcula el subtotal base (tarifa del servicio + costo por pasajero)
-/// y luego aplica cada regla de recargo/descuento sobre ese subtotal.
+/// Pricing engine. Computes the base subtotal (service fare + per-passenger cost) and then
+/// applies each surcharge/discount rule over that subtotal.
 ///
-/// Supuesto de negocio (documentado en el README): los porcentajes son <b>aditivos</b> y se
-/// calculan siempre sobre el subtotal base, no compuestos entre sí. Esto hace el cálculo
-/// determinista, explicable y fácil de auditar línea por línea.
+/// Business assumption (documented in the README): percentages are <b>additive</b> and are
+/// always computed over the base subtotal, not compounded with each other. This makes the
+/// calculation deterministic, explainable and easy to audit line by line.
 /// </summary>
 public sealed class ReservationPricingEngine : IReservationPricingEngine
 {
@@ -25,8 +25,8 @@ public sealed class ReservationPricingEngine : IReservationPricingEngine
 
         var lines = new List<PriceLine>
         {
-            new($"Tarifa base {context.ServiceType}", baseFare),
-            new($"Pasajeros ({context.Passengers} x {PricingConstants.PricePerPassenger:N0})", passengersCost)
+            new($"Base fare {context.ServiceType}", baseFare),
+            new($"Passengers ({context.Passengers} x {PricingConstants.PricePerPassenger:N0})", passengersCost)
         };
 
         foreach (var rule in _rules)
@@ -38,7 +38,7 @@ public sealed class ReservationPricingEngine : IReservationPricingEngine
 
         var total = lines.Sum(l => l.Amount);
 
-        // Se redondea a peso (COP no maneja decimales en la práctica).
+        // Rounded to whole pesos (COP has no decimal cents in practice).
         total = Math.Round(total, 0, MidpointRounding.AwayFromZero);
 
         return new PriceQuote(total, lines);

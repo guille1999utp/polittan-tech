@@ -1,8 +1,8 @@
 namespace Reservations.Domain.Enums;
 
 /// <summary>
-/// Ciclo de vida de una reserva.
-/// Transiciones válidas: Created -> Confirmed, Created -> Cancelled, Confirmed -> Cancelled.
+/// Reservation lifecycle.
+/// Valid transitions: Created -> Confirmed, Created -> Cancelled, Confirmed -> Cancelled.
 /// </summary>
 public enum ReservationStatus
 {

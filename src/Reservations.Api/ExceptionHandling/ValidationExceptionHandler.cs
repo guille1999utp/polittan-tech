@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace Reservations.Api.ExceptionHandling;
 
 /// <summary>
-/// Convierte las <see cref="ValidationException"/> de FluentValidation en una respuesta
-/// 400 con formato ValidationProblemDetails (RFC 7807), agrupando los errores por campo.
+/// Converts FluentValidation <see cref="ValidationException"/> into a 400 response with
+/// ValidationProblemDetails format (RFC 7807), grouping the errors by field.
 /// </summary>
 public sealed class ValidationExceptionHandler : IExceptionHandler
 {
@@ -34,7 +34,7 @@ public sealed class ValidationExceptionHandler : IExceptionHandler
         var problemDetails = new ValidationProblemDetails(errors)
         {
             Status = StatusCodes.Status400BadRequest,
-            Title = "Uno o más errores de validación ocurrieron.",
+            Title = "One or more validation errors occurred.",
             Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"
         };
 
